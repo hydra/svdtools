@@ -72,7 +72,15 @@ pub fn process_file(yaml_file: &Path) -> Result<()> {
 
 /// Gets the absolute path of relpath from the point of view of frompath.
 fn abspath(frompath: &Path, relpath: &Path) -> Result<PathBuf, std::io::Error> {
-    std::fs::canonicalize(frompath.parent().unwrap().join(relpath))
+    //std::fs::canonicalize(frompath.parent().unwrap().join(relpath))
+    let foo = frompath.parent().unwrap().join(relpath);
+
+    let foo_str = format!("{}", foo.display());
+    let foo_str = foo_str.replace("\\", "/");
+
+    let foo_path = PathBuf::from(foo_str);
+    Result::<_,std::io::Error>::Ok(foo_path)
+    //Result::<_,std::io::Error>::Ok(frompath.parent().unwrap().join(relpath).into_os_string().into())
 }
 
 /// Recursively loads any included YAML files.
